@@ -124,8 +124,8 @@ Entradas novas são adicionadas ao final.
   `uv sync --locked` (não `--frozen`) para o CI falhar se o `uv.lock` estiver
   defasado em relação ao `pyproject.toml`. Testes que chamam um provedor LLM
   real são marcados `llm` e excluídos por padrão (`addopts = -m "not llm"`),
-  opt-in via `pytest -m llm` — o CI não depende de rede nem gasta tokens
-  (spec §12). `concurrency` cancela runs obsoletos no mesmo ref. Branch
+  opt-in via `pytest -m llm` — o CI não depende de rede nem gasta tokens.
+  `concurrency` cancela runs obsoletos no mesmo ref. Branch
   protection na `main` exigindo o check do CI é configurada *depois* do primeiro
   run (o check precisa existir antes de poder ser exigido).
 - **Alternativas consideradas:** `pip`/`venv` manual no runner em vez de `uv`
@@ -139,20 +139,18 @@ Entradas novas são adicionadas ao final.
   bit-a-bit igual ao ambiente local — o que passa na máquina passa no CI e
   vice-versa. Job de `pre-commit` separado isola quebra de config de hook de
   quebra de código. A matriz com uma entrada não custa nada agora e deixa
-  "adicionar Python 3.14" como mudança de uma linha. Fecha a #3 e cumpre a
-  spec §14/1b (CI verde antes de a Fase 1 fechar).
+  "adicionar Python 3.14" como mudança de uma linha. Fecha a #3; ter o CI verde
+  é pré-requisito para a Fase 1 fechar.
 
 ## 8. Idioma: README em inglês; docs de decisão/arquitetura em PT-BR
 
 - **Data:** 27/08/2026
 - **Decisão:** O `README.md` é escrito em inglês. A documentação interna de
-  decisão e arquitetura — este arquivo (`docs/DECISIONS.md`) e
-  `.claude/spec-tutor-rag.md` — permanece em PT-BR. Código (identificadores,
-  comentários) e mensagens de commit/PR/issue seguem em inglês, como já era. A
-  linha "Idioma" da spec foi ajustada para refletir esta separação (antes dizia
-  "documentação em PT-BR" de forma indistinta).
-- **Alternativas consideradas:** Tudo em PT-BR (como a spec dizia
-  originalmente); tudo em inglês, docs de decisão incluídos.
+  decisão e arquitetura — a começar por este arquivo (`docs/DECISIONS.md`) —
+  permanece em PT-BR. Código (identificadores, comentários) e mensagens de
+  commit/PR/issue seguem em inglês, como já era.
+- **Alternativas consideradas:** Tudo em PT-BR; tudo em inglês, docs de decisão
+  incluídos.
 - **Motivo:** O README é a vitrine do repositório num portfólio para vaga
   sênior — o primeiro texto que um revisor de fora lê, e a convenção de
   ecossistema é inglês. Os docs de decisão são memória de trabalho do autor e
