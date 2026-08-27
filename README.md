@@ -6,8 +6,8 @@ Retrieval-Augmented Generation service that answers questions grounded in an
 ingested document corpus. Phase 1 is a thin vertical slice: PDF ingestion,
 pgvector retrieval, and a single `POST /v1/ask` endpoint.
 
-Design rationale lives in [`docs/DECISIONS.md`](docs/DECISIONS.md); the
-engineering spec is in [`.claude/spec-tutor-rag.md`](.claude/spec-tutor-rag.md).
+Design rationale and the record of every architectural decision live in
+[`docs/DECISIONS.md`](docs/DECISIONS.md).
 
 ## Development
 
