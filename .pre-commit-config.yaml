@@ -1,4 +1,4 @@
-# mypy fica de fora de propósito: roda em local/CI, sem o inferno de env isolado.
+# mypy is intentionally left out: it runs in local/CI, without the isolated-env hassle.
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.16.5

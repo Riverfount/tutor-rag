@@ -29,7 +29,7 @@ target-version = "py313"
 line-length = 88
 
 [tool.ruff.lint]
-# Conjunto enxuto de partida; ampliar conforme o código cresce.
+# Lean starter set; widen as the codebase grows.
 # E/F: pycodestyle + pyflakes · I: isort · UP: pyupgrade · B: flake8-bugbear
 select = ["E", "F", "I", "UP", "B"]
 
@@ -42,9 +42,9 @@ strict = true
 mypy_path = "src"
 explicit_package_bases = true
 files = ["src", "tests"]
-# Libs de terceiros sem stubs entram aqui, uma a uma — nunca afrouxando o global:
+# Third-party libs without stubs go here, one at a time — never loosening the global config:
 # [[tool.mypy.overrides]]
-# module = ["algum_pacote.*"]
+# module = ["some_package.*"]
 # ignore_missing_imports = true
 
 [tool.pytest.ini_options]
