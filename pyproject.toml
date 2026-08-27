@@ -15,3 +15,38 @@ tutor-rag = "tutor_rag:main"
 [build-system]
 requires = ["uv_build>=0.12.3,<0.13.0"]
 build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "mypy>=2.3.1",
+    "pre-commit>=4.6.2",
+    "pytest>=9.1.1",
+    "ruff>=0.16.5",
+]
+
+[tool.ruff]
+target-version = "py313"
+line-length = 88
+
+[tool.ruff.lint]
+# Conjunto enxuto de partida; ampliar conforme o código cresce.
+# E/F: pycodestyle + pyflakes · I: isort · UP: pyupgrade · B: flake8-bugbear
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["tutor_rag"]
+
+[tool.mypy]
+python_version = "3.13"
+strict = true
+mypy_path = "src"
+explicit_package_bases = true
+files = ["src", "tests"]
+# Libs de terceiros sem stubs entram aqui, uma a uma — nunca afrouxando o global:
+# [[tool.mypy.overrides]]
+# module = ["algum_pacote.*"]
+# ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
