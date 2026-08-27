@@ -101,7 +101,7 @@ Entradas novas são adicionadas ao final.
   **pre-commit** com `.pre-commit-config.yaml` na raiz rodando só o Ruff
   (`ruff-check --fix` + `ruff-format`) mais hooks baratos do `pre-commit-hooks`
   (trailing-whitespace, end-of-file-fixer, check-toml/yaml, large-files,
-  merge-conflict). CI (GitHub Actions) fica para uma issue própria.
+  merge-conflict). CI (GitHub Actions) fica para uma issue própria (#3).
 - **Alternativas consideradas:** Black + Flake8 + isort como três ferramentas
   separadas; incluir o mypy como hook do pre-commit.
 - **Motivo:** O Ruff substitui os três (Black/Flake8/isort) com uma config e uma
