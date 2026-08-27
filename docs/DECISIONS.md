@@ -112,3 +112,46 @@ Entradas novas são adicionadas ao final.
   dor. O `select` enxuto evita afogar o começo do projeto em ruído de lint por
   regras que só fazem sentido com mais código. O objetivo é nascer verde e
   *seguir* verde — daqui em diante cada passo é "manter", não "chegar".
+
+## 7. CI no GitHub Actions: Ruff + mypy + pytest a cada push/PR
+
+- **Data:** 27/08/2026
+- **Decisão:** Workflow `.github/workflows/ci.yml` dispara em `push` na `main` e
+  em todo `pull_request`. Dois jobs paralelos: `quality` (setup do uv com cache
+  → `uv sync --locked` → `ruff check` → `ruff format --check` → `mypy` estrito →
+  `pytest`), numa matriz de versões de Python com uma entrada (`3.13`, casando
+  com `requires-python`); e `pre-commit`, rodando `pre-commit run --all-files`.
+  `uv sync --locked` (não `--frozen`) para o CI falhar se o `uv.lock` estiver
+  defasado em relação ao `pyproject.toml`. Testes que chamam um provedor LLM
+  real são marcados `llm` e excluídos por padrão (`addopts = -m "not llm"`),
+  opt-in via `pytest -m llm` — o CI não depende de rede nem gasta tokens.
+  `concurrency` cancela runs obsoletos no mesmo ref. Branch
+  protection na `main` exigindo o check do CI é configurada *depois* do primeiro
+  run (o check precisa existir antes de poder ser exigido).
+- **Alternativas consideradas:** `pip`/`venv` manual no runner em vez de `uv`
+  (mais lento, diverge do ambiente local); `uv sync --frozen` (não pega lock
+  defasado); mypy como hook do pre-commit num job único (mistura o env isolado
+  do pre-commit com o type-check completo — ver decisão 6); linters e pytest em
+  steps de um job só, sem matriz (dificulta acrescentar versões de Python
+  depois).
+- **Motivo:** O CI transforma "seguir verde" (decisão 6) de disciplina manual em
+  verificação automática a cada PR. Reusar o `uv` no runner mantém o CI
+  bit-a-bit igual ao ambiente local — o que passa na máquina passa no CI e
+  vice-versa. Job de `pre-commit` separado isola quebra de config de hook de
+  quebra de código. A matriz com uma entrada não custa nada agora e deixa
+  "adicionar Python 3.14" como mudança de uma linha. Fecha a #3; ter o CI verde
+  é pré-requisito para a Fase 1 fechar.
+
+## 8. Idioma: README em inglês; docs de decisão/arquitetura em PT-BR
+
+- **Data:** 27/08/2026
+- **Decisão:** O `README.md` é escrito em inglês. A documentação interna de
+  decisão e arquitetura — a começar por este arquivo (`docs/DECISIONS.md`) —
+  permanece em PT-BR. Código (identificadores, comentários) e mensagens de
+  commit/PR/issue seguem em inglês, como já era.
+- **Alternativas consideradas:** Tudo em PT-BR; tudo em inglês, docs de decisão
+  incluídos.
+- **Motivo:** O README é a vitrine do repositório num portfólio para vaga
+  sênior — o primeiro texto que um revisor de fora lê, e a convenção de
+  ecossistema é inglês. Os docs de decisão são memória de trabalho do autor e
+  ganham densidade e nuance em PT-BR sem custo para o leitor-alvo.

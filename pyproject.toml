@@ -49,4 +49,7 @@ files = ["src", "tests"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "-ra"
+addopts = "-ra -m 'not llm'"
+markers = [
+    "llm: hits a real LLM provider (network + token cost); opt-in via `-m llm`",
+]
