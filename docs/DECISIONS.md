@@ -141,3 +141,19 @@ Entradas novas são adicionadas ao final.
   quebra de código. A matriz com uma entrada não custa nada agora e deixa
   "adicionar Python 3.14" como mudança de uma linha. Fecha a #3 e cumpre a
   spec §14/1b (CI verde antes de a Fase 1 fechar).
+
+## 8. Idioma: README em inglês; docs de decisão/arquitetura em PT-BR
+
+- **Data:** 27/08/2026
+- **Decisão:** O `README.md` é escrito em inglês. A documentação interna de
+  decisão e arquitetura — este arquivo (`docs/DECISIONS.md`) e
+  `.claude/spec-tutor-rag.md` — permanece em PT-BR. Código (identificadores,
+  comentários) e mensagens de commit/PR/issue seguem em inglês, como já era. A
+  linha "Idioma" da spec foi ajustada para refletir esta separação (antes dizia
+  "documentação em PT-BR" de forma indistinta).
+- **Alternativas consideradas:** Tudo em PT-BR (como a spec dizia
+  originalmente); tudo em inglês, docs de decisão incluídos.
+- **Motivo:** O README é a vitrine do repositório num portfólio para vaga
+  sênior — o primeiro texto que um revisor de fora lê, e a convenção de
+  ecossistema é inglês. Os docs de decisão são memória de trabalho do autor e
+  ganham densidade e nuance em PT-BR sem custo para o leitor-alvo.
