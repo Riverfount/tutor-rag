@@ -87,3 +87,28 @@ Entradas novas são adicionadas ao final.
   bobagem antes de virar histórico. Squash-merge mantém a `main` com um commit
   limpo por feature. O bootstrap vai direto na `main` porque estas decisões
   *precedem* o fluxo de issues — são sobre a estrutura que está sendo commitada.
+
+## 6. Toolchain de qualidade: Ruff (lint + format), mypy estrito, pytest, pre-commit
+
+- **Data:** 27/08/2026
+- **Decisão:** Ferramentas de qualidade num grupo de dev separado
+  (`[dependency-groups] dev`, via `uv add --dev`), fora das deps de runtime.
+  **Ruff** faz lint *e* format (config em `pyproject.toml`), com um `select`
+  enxuto de partida (`E`, `F`, `I`, `UP`, `B`) a ser ampliado conforme o código
+  cresce. **mypy** em `strict = true`; libs de terceiros sem stubs são tratadas
+  uma a uma com `[[tool.mypy.overrides]]`, nunca afrouxando o global. **pytest**
+  com `testpaths = ["tests"]` e um teste smoke que importa `tutor_rag`.
+  **pre-commit** com `.pre-commit-config.yaml` na raiz rodando só o Ruff
+  (`ruff-check --fix` + `ruff-format`) mais hooks baratos do `pre-commit-hooks`
+  (trailing-whitespace, end-of-file-fixer, check-toml/yaml, large-files,
+  merge-conflict). CI (GitHub Actions) fica para uma issue própria (#3).
+- **Alternativas consideradas:** Black + Flake8 + isort como três ferramentas
+  separadas; incluir o mypy como hook do pre-commit.
+- **Motivo:** O Ruff substitui os três (Black/Flake8/isort) com uma config e uma
+  passada, ordens de magnitude mais rápido — menos peça móvel para manter verde.
+  O mypy fica fora do pre-commit de propósito: rodar type-check completo exige o
+  ambiente com todas as deps, e o env isolado do pre-commit vira um segundo
+  gráfico de dependências para manter sincronizado; local + CI resolvem sem essa
+  dor. O `select` enxuto evita afogar o começo do projeto em ruído de lint por
+  regras que só fazem sentido com mais código. O objetivo é nascer verde e
+  *seguir* verde — daqui em diante cada passo é "manter", não "chegar".
